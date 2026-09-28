@@ -2,6 +2,7 @@ package com.ijse.learnhub.enrollmentservice.client;
 
 import com.ijse.learnhub.enrollmentservice.exception.DownstreamUnavailableException;
 import com.ijse.learnhub.enrollmentservice.exception.ResourceNotFoundException;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -18,7 +19,7 @@ public class CourseClient {
 
     private final RestClient restClient;
 
-    public CourseClient(RestClient.Builder builder) {
+    public CourseClient(@LoadBalanced RestClient.Builder builder) {
         this.restClient = builder.clone().baseUrl("http://course-service").build();
     }
 
