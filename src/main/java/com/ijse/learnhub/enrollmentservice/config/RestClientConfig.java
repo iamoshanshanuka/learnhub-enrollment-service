@@ -1,6 +1,7 @@
 package com.ijse.learnhub.enrollmentservice.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
@@ -18,6 +19,7 @@ import java.time.Duration;
 public class RestClientConfig {
 
     @Bean
+    @Lazy
     @LoadBalanced
     public RestClient.Builder loadBalancedRestClientBuilder() {
         HttpClient httpClient = HttpClient.newBuilder()
