@@ -1,0 +1,35 @@
+# build output
+target/
+*.jar
+*.war
+*.class
+# logs
+*.log
+logs/
+# IDE / editor
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.springBeans
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+# secrets / local-only settings: NEVER commit
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*credentials*.json
+service-account*.json
+application-local.yml
+application-local.properties

@@ -1,0 +1,52 @@
+server:
+  port: ${SERVER_PORT:8083}
+
+spring:
+  application:
+    name: enrollment-service
+  config:
+    # "optional:" = the service still starts if the Config Server is briefly unavailable
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+  cloud:
+    config:
+      # never hang on startup because of an unreachable config server
+      request-connect-timeout: 5000
+      request-read-timeout: 10000
+    loadbalancer:
+      cache:
+        enabled: false
+  # Spring Boot 4 renamed the MongoDB properties (spring.data.mongodb.* -> spring.mongodb.*).
+  # Both are set so the URI is picked up whichever name the auto-configuration reads.
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/learnhub_enrollment_db}
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/learnhub_enrollment_db}
+
+eureka:
+  client:
+    # Comma separated list - both Eureka nodes on GCP
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+    registry-fetch-interval-seconds: 10
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 60
+
+management:
+  health:
+    config:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# Firestore activity log (turned on with FIRESTORE_ENABLED=true on GCP)
+gcp:
+  project-id: ${GCP_PROJECT_ID:}
+  firestore:
+    enabled: ${FIRESTORE_ENABLED:false}
+    collection: ${FIRESTORE_COLLECTION:enrollment_activity}
